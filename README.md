@@ -24,7 +24,7 @@ Run as a springboot applicaiton in STS
 
 --------
 
-By default you application.yml might not pick  add below lines in porm.xml
+By default you application.yml might not pick  add below lines in pom.xml
 
 ```
 spring:
