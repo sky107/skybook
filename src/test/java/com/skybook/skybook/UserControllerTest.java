@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.skybook.skybook.error.ApiError;
 import com.skybook.skybook.shared.GenericResponse;
 import com.skybook.skybook.user.User;
 import com.skybook.skybook.user.UserRepository;
@@ -30,8 +31,12 @@ public class UserControllerTest {
 		// defining as test profiles
 		// naming methodName_condition_expectedBehaviour
 	
-	// field injection
 	
+	// code refracting
+	public <T> ResponseEntity<T> postSignUp(Object request,Class<T> response){
+		return testRestTemplate.postForEntity(API_1_0_USERS, request, response);
+	}
+	// field injection
 	private static final String API_1_0_USERS = "/api/1.0/users";
 	@Autowired
 	TestRestTemplate testRestTemplate;
@@ -51,7 +56,7 @@ public class UserControllerTest {
 		// failing so we have need to create User class
 		User user = createValidUser();
 		
-		ResponseEntity<Object> response = testRestTemplate.postForEntity(API_1_0_USERS, user, Object.class);
+		ResponseEntity<Object> response = postSignUp( user, Object.class);
 		
 		//assertion
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -66,7 +71,7 @@ public class UserControllerTest {
 		// failing so we have need to create User class
 		User user = createValidUser();
 		
-		ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity(API_1_0_USERS, user, GenericResponse.class);
+		ResponseEntity<GenericResponse> response = postSignUp(user, GenericResponse.class);
 		
 		//assertion
 		assertThat(response.getBody().getMessage()).isNotNull();
@@ -97,7 +102,7 @@ public class UserControllerTest {
 		User user=new User();
 		user.setUsername("test-user");
 		user.setDisplayName("test-display");
-		user.setPassword("password1");
+		user.setPassword("Trail@1238");
 		return user;
 	}
 	
@@ -118,4 +123,59 @@ public class UserControllerTest {
 		
 		// after test is complete return back to original State TDD
 	}
+	
+	
+	
+	@Test
+	public void postUser_whenNullUsername_receiveBadRequest() {
+		User user=createValidUser();
+		user.setUsername(null);
+		ResponseEntity<Object> response = postSignUp(user, Object.class);
+		
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+	}
+	
+	@Test
+	public void postUser_whenNullDisplayName_receiveBadRequest() {
+		User user=createValidUser();
+		user.setDisplayName(null);
+		ResponseEntity<Object> response = postSignUp(user, Object.class);
+		
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+	}
+	
+	@Test
+	public void postUser_whenUsernameLessThanRequired_receiveBadRequest() {
+		User user=createValidUser();
+		user.setUsername("test-username");
+		System.out.println(user);
+		ResponseEntity<Object> response = postSignUp(user, Object.class);
+		
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@Test
+	public void postUser_whenThePasswordNotCorrectFormat_receiveBadRequest() {
+		User user=createValidUser();
+		user.setPassword("Test");
+		// uncomment belwo to faill the test
+//		user.setPassword("Test@123123123");
+		System.out.println(user);
+		ResponseEntity<Object> response = postSignUp(user, Object.class);
+		
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@Test
+	public void postUser_whenTheUserIsInvalid_receiveApiErro() {
+		User user=new User();
+		ResponseEntity<ApiError> response = postSignUp(user,ApiError.class);
+		assertThat(response.getBody().getUrl()).isEqualTo(API_1_0_USERS);
+		// start from 3:29
+
+	
+	
+}
 }

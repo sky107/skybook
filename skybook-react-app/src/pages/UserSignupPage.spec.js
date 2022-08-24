@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect'
+import {jest} from '@jest/globals';
 import UserSignupPage from './UserSignupPage';
 
 // we dont' need after v9 of testing
@@ -73,108 +74,156 @@ describe('user signup page ', () => {
 
     describe('Interactions', () => {
 
-        const changeEvent=(content)=>{
+        const changeEvent = (content) => {
             return {
-                target:{
-                    value:content
+                target: {
+                    value: content
                 }
             }
         }
-        
-        it('check the typing of display name',()=>{
-        const { queryByPlaceholderText } = render(<UserSignupPage />);
-        const displayNameInput = queryByPlaceholderText('Your display name')
-        
-        // const changeEvent = {
-        //     target: {
-        //         value: 'my-display-name'
-        //     }
-        // };
-       
-        fireEvent.change(displayNameInput, changeEvent('my-display-name'));
-        expect(displayNameInput).toHaveValue('my-display-name');
-        //but we want to test it usign states
 
+        it('check the typing of display name', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const displayNameInput = queryByPlaceholderText('Your display name')
 
-     
+            // const changeEvent = {
+            //     target: {
+            //         value: 'my-display-name'
+            //     }
+            // };
 
-       })
-
-       it('check the typing of username',()=>{
-        const { queryByPlaceholderText } = render(<UserSignupPage />);
-        const displayNameInput = queryByPlaceholderText('Your username')
-        
-        // const changeEvent = {
-        //     target: {
-        //         value: 'my-display-name'
-        //     }
-        // };
-       
-        fireEvent.change(displayNameInput, changeEvent('my-display-name'));
-        expect(displayNameInput).toHaveValue('my-display-name');
-        //but we want to test it usign states
-
-
-     
-
-       })
-       it('check the typing of password',()=>{
-        const { queryByPlaceholderText } = render(<UserSignupPage />);
-        const displayNameInput = queryByPlaceholderText('Your password')
-        
-        // const changeEvent = {
-        //     target: {
-        //         value: 'my-display-name'
-        //     }
-        // };
-       
-        fireEvent.change(displayNameInput, changeEvent('my-test-password'));
-        expect(displayNameInput).toHaveValue('my-test-password');
-        //but we want to test it usign states
-
-
-     
-
-       })
-       
-       it('check the typing of password',()=>{
-        const { queryByPlaceholderText } = render(<UserSignupPage />);
-        const displayNameInput = queryByPlaceholderText('Confirm password')
-        
-        // const changeEvent = {
-        //     target: {
-        //         value: 'my-display-name'
-        //     }
-        // };
-       
-         //but we want to test it usign states
-
-
-        fireEvent.change(displayNameInput, changeEvent('my-test-password'));
-        expect(displayNameInput).toHaveValue('my-test-password');
-       
-
-     
-
-       })
-
-
-    })
-
-
-
-    // if('calls backend when fields are valid',()=>{
-
-
-    //     const actions={
-    //         postSignUp:jest.fn().mockResolveValueOnce({})
-    //     }
-    //    const {container,queryByPlaceholderText}= render(<UserSignupPage actions={actions}/>);
-
-       
-    // })
+            fireEvent.change(displayNameInput, changeEvent('my-display-name'));
+            expect(displayNameInput).toHaveValue('my-display-name');
+            //but we want to test it usign states
 
 
 
 
-})
+        })
+
+        it('check the typing of username', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const displayUsernameInput = queryByPlaceholderText('Your username')
+
+            // const changeEvent = {
+            //     target: {
+            //         value: 'my-display-name'
+            //     }
+            // };
+
+            fireEvent.change(displayUsernameInput, changeEvent('my-display-name'));
+            expect(displayUsernameInput).toHaveValue('my-display-name');
+            //but we want to test it usign states
+
+
+
+
+        })
+        it('check the typing of password', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const passwordInput = queryByPlaceholderText('Your password')
+
+            // const changeEvent = {
+            //     target: {
+            //         value: 'my-display-name'
+            //     }
+            // };
+
+            fireEvent.change(passwordInput, changeEvent('my-test-password'));
+            expect(passwordInput).toHaveValue('my-test-password');
+            //but we want to test it usign states
+
+
+
+
+        })
+
+        it('check the typing of password', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const confirmPasswordInput = queryByPlaceholderText('Confirm password')
+
+            // const changeEvent = {
+            //     target: {
+            //         value: 'my-display-name'
+            //     }
+            // };
+
+            //but we want to test it usign states
+
+
+            fireEvent.change(confirmPasswordInput, changeEvent('my-test-password'));
+            expect(confirmPasswordInput).toHaveValue('my-test-password');
+
+
+
+
+        })
+
+
+
+        it('calls backend when fields are valid', () => {
+            ;
+
+            const actions = {
+                // mocking api call
+                // this name should be same as in component
+                postSignUp: jest.fn().mockResolvedValueOnce({})
+            }
+            const { container, queryByPlaceholderText } = render(<UserSignupPage actions={actions} />);
+
+            const displayNameInput = queryByPlaceholderText('Your display name')
+            const displayUsernameInput = queryByPlaceholderText('Your username')
+            const passwordInput = queryByPlaceholderText('Your password')
+            const confirmPasswordInput = queryByPlaceholderText('Confirm password')
+
+
+
+            fireEvent.change(displayNameInput, changeEvent('my-display-name'));
+            fireEvent.change(displayUsernameInput, changeEvent('my-display-username'));
+            fireEvent.change(passwordInput, changeEvent('my-test-password'));
+            fireEvent.change(confirmPasswordInput, changeEvent('my-test-password'));
+
+            const button = container.querySelector('button');
+            fireEvent.click(button);
+            expect(actions.postSignUp).toHaveBeenCalledTimes(1);
+        });
+        // semicolon important syntaz error elese
+
+
+
+        it('check throw exception when no props.actions is provided backend when fields are valid', () => {
+            ;
+
+            const actions = {
+                // mocking api call
+                // this name should be same as in component
+                postSignUp: jest.fn().mockResolvedValueOnce({})
+            }
+            const { container, queryByPlaceholderText } = render(<UserSignupPage actions={actions} />);
+
+            const displayNameInput = queryByPlaceholderText('Your display name')
+            const displayUsernameInput = queryByPlaceholderText('Your username')
+            const passwordInput = queryByPlaceholderText('Your password')
+            const confirmPasswordInput = queryByPlaceholderText('Confirm password')
+
+
+
+            fireEvent.change(displayNameInput, changeEvent('my-display-name'));
+            fireEvent.change(displayUsernameInput, changeEvent('my-display-username'));
+            fireEvent.change(passwordInput, changeEvent('my-test-password'));
+            fireEvent.change(confirmPasswordInput, changeEvent('my-test-password'));
+
+            const button = container.querySelector('button');
+           expect(()=>fireEvent.click(button)).not.toThrow()
+            // expect(actions.postSignUp).toHaveBeenCalledTimes(1);
+        });
+
+});
+
+});
+
+
+
+
+
+

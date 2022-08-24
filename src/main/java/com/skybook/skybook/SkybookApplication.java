@@ -16,5 +16,7 @@ public class SkybookApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SkybookApplication.class, args);
 	}
+	
+	
 
 }

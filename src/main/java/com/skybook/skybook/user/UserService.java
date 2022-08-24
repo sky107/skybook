@@ -17,7 +17,7 @@ public class UserService {
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
-	}
+	}	
 	
 	
 	// automatically spring will create a class and assing repostiroy linkage

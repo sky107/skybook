@@ -13,4 +13,6 @@ public class GenericResponse {
 		this.message=message;
 	}
 	
+	
+	
 }

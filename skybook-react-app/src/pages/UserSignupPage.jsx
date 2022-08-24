@@ -17,6 +17,11 @@ class UserSignupPage extends React.Component{
 
     }
 
+    onClickSignup=()=>{
+        // if(this.props.actions) // to avoid test case failing
+        this.props.actions.postSignUp();
+    }
+
 
 
     render() {
@@ -31,7 +36,7 @@ class UserSignupPage extends React.Component{
             <input type="password" placeholder='Your password'/>
             <input type="password" placeholder='Confirm password'/>
         </div>
-        <button>Signup</button>
+        <button onClick={this.onClickSignup}>Signup</button>
         </> 
     }
 }
