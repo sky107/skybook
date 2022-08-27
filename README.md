@@ -41,3 +41,9 @@ spring:
   <artifactId>spring-boot-configuration-processor</artifactId>
 </dependency>
 ``
+
+
+
+https://www.telerik.com/blogs/dealing-with-cors-in-create-react-app
+
+

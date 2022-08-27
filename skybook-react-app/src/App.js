@@ -9,7 +9,6 @@ const actions=()=>{}
 
   return (
     <div className="App">
-    
        <UserSignupPage actions={actions}/>
     </div>
   );

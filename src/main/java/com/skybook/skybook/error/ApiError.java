@@ -1,6 +1,7 @@
 package com.skybook.skybook.error;
 
 import java.util.Date;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,19 @@ public class ApiError {
 	private int status;
 	private String message;
 	private String url;
-	public ApiError(long timestamp, int status, String message, String url) {
+	
+	
+	private Map<String, String>validationErrors;
+	
+	public ApiError(int status, String message, String url) {
 		super();
-		this.timestamp = timestamp;
+//		this.timestamp = timestamsp;
 		this.status = status;
 		this.message = message;
 		this.url = url;
 	}
+	
+	
 	
 	
 }

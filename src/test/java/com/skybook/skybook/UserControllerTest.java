@@ -1,6 +1,8 @@
 package com.skybook.skybook;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -169,13 +171,56 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void postUser_whenTheUserIsInvalid_receiveApiErro() {
+	public void postUser_whenTheUserIsInvalid_receiveApiErrors() {
 		User user=new User();
 		ResponseEntity<ApiError> response = postSignUp(user,ApiError.class);
 		assertThat(response.getBody().getUrl()).isEqualTo(API_1_0_USERS);
-		// start from 3:29
+}
+	
+	@Test
+	public void postUser_whenTheUserIsInvalid_receiveApiErrorsWithValidationErrors() {
+		User user=new User();
+		ResponseEntity<ApiError> response = postSignUp(user,ApiError.class);
+		assertThat(response.getBody().getValidationErrors().size()).isEqualTo(3);
+}
+	
+	@Test
+	public void postUser_whenTheUserIsInvalid_receiveMessageOfNullErrorForUsername() {
+		User user=new User();
+		ResponseEntity<ApiError> response = postSignUp(user,ApiError.class);
+		Map<String, String>validationErrors=response.getBody().getValidationErrors();
+		
+		assertThat(response.getBody().getValidationErrors().get("username")).isEqualTo("Username cannot be a null value");
+		
+}
 
 	
 	
-}
+// TODO - Constraint
+//	@Test
+//	public void postUser_UsernameAlreadyExists_receiveBadRequest() {
+//	
+//		userRepository.save(createValidUser());
+//		
+//		// create new again
+//		User newUser=createValidUser();
+//		ResponseEntity<Object> response= postSignUp(newUser, Object.class);
+//
+//		
+//		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+//}
+//	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

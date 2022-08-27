@@ -22,7 +22,8 @@ public class User {
 	@GeneratedValue
 	private long id;
 	
-	@NotNull
+	// one approach for custom message other than internationalization properties
+	@NotNull(message = "Username cannot be a null value")
 	@Size(min=4,max=10)
 	private String username;
 		
