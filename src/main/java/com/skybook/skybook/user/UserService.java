@@ -26,8 +26,7 @@ public class UserService {
 	
 	
 	public User save(User user) {
-		System.out.println("HSDFSDFD");
-		System.out.println(user);
+
 		
 		user.setPassword((user.getPassword())+1);
 		return userRepository.save(user);

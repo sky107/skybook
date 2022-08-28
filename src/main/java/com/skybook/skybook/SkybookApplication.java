@@ -10,7 +10,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 
 // exclude it otherwise you will get lots of security
-@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
+//@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class SkybookApplication {
 
 	public static void main(String[] args) {

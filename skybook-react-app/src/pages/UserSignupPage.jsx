@@ -84,7 +84,6 @@ class UserSignupPage extends React.Component{
 
         return<div className="container">
         <h1 className='text-center'>SignUp</h1>
-
         <div className="col-12 mb-3">
             <input className="form-control" type="text" placeholder='Your display name' value={this.state.displayName} onChange={this.onChangeDisplayName}/>
             <input className="form-control" type="text" placeholder='Your username' value={this.state.username} onChange={this.onChangeUsername}/>
